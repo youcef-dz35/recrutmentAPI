@@ -88,8 +88,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'recapi',
-        'USER': 'youcef',
-        'PASSWORD': 'project',
+        'USER': 'postgres',
+        'PASSWORD': 'ramc7659170503',
         'HOST': 'localhost',
         'PORT': '',
     }
