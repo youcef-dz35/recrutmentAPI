@@ -231,9 +231,6 @@ def dashboard_view(request):
     savedjobs = []
     appliedjobs = []
     total_applicants = {}
-    user = get_object_or_404(User, id=request.user.id)
-    print(user.__dict__)
-
     if request.user.role == 'employer':
 
         jobs = Job.objects.filter(user=request.user.id)
@@ -245,7 +242,7 @@ def dashboard_view(request):
         savedjobs = BookmarkJob.objects.filter(user=request.user.id)
         appliedjobs = Applicant.objects.filter(user=request.user.id)
     context = {
-        'user': user,
+
         'jobs': jobs,
         'savedjobs': savedjobs,
         'appliedjobs':appliedjobs,

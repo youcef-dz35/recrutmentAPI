@@ -42,7 +42,7 @@ python manage.py collectstatic
 ```
 
 ## Run the server
-``` 
+```
 python manage.py runserver
 ```
 

@@ -1,0 +1,5 @@
+date of birth/
+etat civil/
+address physique/
+num tel/
+active searcher /
