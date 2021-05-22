@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -231,6 +233,12 @@ def dashboard_view(request):
     savedjobs = []
     appliedjobs = []
     total_applicants = {}
+    user = get_object_or_404(User, id=request.user.id)
+    today = date.today()
+    if user.role =='employee':
+        bday = today.year - user.date_of_birth.year - ((today.month, today.day) < (user.date_of_birth.month, user.date_of_birth.day))
+
+    print(user.__dict__)
     if request.user.role == 'employer':
 
         jobs = Job.objects.filter(user=request.user.id)
@@ -241,14 +249,24 @@ def dashboard_view(request):
     if request.user.role == 'employee':
         savedjobs = BookmarkJob.objects.filter(user=request.user.id)
         appliedjobs = Applicant.objects.filter(user=request.user.id)
-    context = {
 
-        'jobs': jobs,
-        'savedjobs': savedjobs,
-        'appliedjobs':appliedjobs,
-        'total_applicants': total_applicants
-    }
+        context = {
+            'bday' :bday,
+            'user': user,
+            'jobs': jobs,
+            'savedjobs': savedjobs,
+            'appliedjobs':appliedjobs,
+            'total_applicants': total_applicants
+        }
+    else:
+        context = {
 
+            'user': user,
+            'jobs': jobs,
+            'savedjobs': savedjobs,
+            'appliedjobs': appliedjobs,
+            'total_applicants': total_applicants
+        }
     return render(request, 'jobapp/dashboard.html', context)
 
 

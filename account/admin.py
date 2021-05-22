@@ -19,7 +19,7 @@ class AddUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'gender', 'role','isActive','civil','telephone','date_of_birth','address','zip_code','city' )
+        fields = ('email', 'first_name', 'last_name', 'gender', 'role','isActive','civil','telephone','date_of_birth','address','zip_code','city','image' )
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -48,7 +48,7 @@ class UpdateUserForm(forms.ModelForm):
         model = User
         fields = (
             'email', 'password', 'first_name', 'gender', 'role', 'last_name', 'is_active',
-            'is_staff','isActive','civil','telephone','date_of_birth','address','zip_code','city'
+            'is_staff','isActive','civil','telephone','date_of_birth','address','zip_code','city','image'
         )
 
     def clean_password(self):
@@ -60,11 +60,11 @@ class UserAdmin(BaseUserAdmin):
     form = UpdateUserForm
     add_form = AddUserForm
 
-    list_display = ('email', 'first_name', 'last_name', 'gender', 'role', 'is_staff','isActive','civil','telephone','date_of_birth','address','zip_code','city' )
+    list_display = ('email', 'first_name', 'last_name', 'gender', 'role', 'is_staff','isActive','civil','telephone','date_of_birth','address','zip_code','city','image')
     list_filter = ('is_staff', )
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'gender', 'role', )}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'gender', 'role','image' )}),
         ('Permissions', {'fields': ('is_active', 'is_staff')}),
     )
     add_fieldsets = (
