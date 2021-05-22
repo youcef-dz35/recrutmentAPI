@@ -112,6 +112,9 @@ class EmployerRegistrationForm(UserCreationForm):
         self.fields['last_name'].label = "Company Address"
         self.fields['password1'].label = "Password"
         self.fields['password2'].label = "Confirm Password"
+        self.fields['telephone'].label = "Telephone :"
+        self.fields['zip_code'].label = "Zip code :"
+        self.fields['city'].label = "City :"
 
         self.fields['first_name'].widget.attrs.update(
             {
@@ -128,6 +131,23 @@ class EmployerRegistrationForm(UserCreationForm):
                 'placeholder': 'Enter Email',
             }
         )
+
+        self.fields['telephone'].widget.attrs.update(
+            {
+                'placeholder': 'Phone Number',
+            }
+        )
+
+        self.fields['city'].widget.attrs.update(
+            {
+                'placeholder': 'city where the company resides',
+            }
+        )
+        self.fields['zip_code'].widget.attrs.update(
+            {
+                'placeholder': 'Zip Code',
+            }
+        )
         self.fields['password1'].widget.attrs.update(
             {
                 'placeholder': 'Enter Password',
@@ -142,7 +162,7 @@ class EmployerRegistrationForm(UserCreationForm):
 
         model=User
 
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2',]
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2','telephone','city','zip_code']
 
 
     def save(self, commit=True):

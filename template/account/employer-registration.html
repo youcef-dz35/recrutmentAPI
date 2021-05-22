@@ -22,7 +22,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12 mb-5">
-        <h2 class="mb-4 text-center">Sign Up To JobBoard</h2>
+        <h2 class="mb-4 text-center">Sign Up To EmploChain</h2>
         {% include 'messages.html' %}
 
         {% if form.errors %}
@@ -44,7 +44,16 @@
         <form method="POST" action="" class="p-4 border rounded">
           {% csrf_token %}
           {% for field in form %}
+          {% if field.name == 'telephone' %}
+            <div class="row form-group">
+              <div class="col-md-12 mb-3 mb-md-0">
+                <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
+                <input type="tel" pattern="[0-9]{10}" class="form-control" name="{{ field.name }}"
+                  id="id_{{ field.name }}" placeholder="{{ field.field.widget.attrs.placeholder }}">
+              </div>
+            </div>
 
+          {% else %}
           <div class="row form-group">
             <div class="col-md-12 mb-3 mb-md-0">
               <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
@@ -53,7 +62,7 @@
             </div>
           </div>
 
-
+          {% endif %}
           {% endfor %}
           <div class="row form-group">
             <div class="col-md-12">
