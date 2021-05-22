@@ -41,6 +41,7 @@ class User(AbstractUser):
 
     zip_code = models.CharField(max_length=12, blank=True, null=True)
     city = models.CharField(max_length=1024, blank=True, null=True)
+    image = models.ImageField(upload_to='media', blank=True)
 
 
 
