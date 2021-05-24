@@ -69,7 +69,7 @@ def employee_edit_profile(request, id=id):
     """
 
     user = get_object_or_404(User, id=id)
-    form = EmployeeProfileEditForm(request.POST or None, instance=user)
+    form = EmployeeProfileEditForm(request.POST or None ,request.FILES or None, instance=user)
     if form.is_valid():
         form = form.save()
         messages.success(request, 'Your Profile Was Successfully Updated!')

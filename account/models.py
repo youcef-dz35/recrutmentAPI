@@ -33,6 +33,7 @@ class User(AbstractUser):
     role = models.CharField(choices=ROLE,  max_length=10)
     gender = models.CharField(choices=JOB_TYPE, max_length=1)
     isActive = models.CharField(choices=active, max_length=5,default="yes")
+    operate = models.CharField(choices=active, max_length=5, default="yes")
     civil = models.CharField(choices=civil_status, max_length=30,default="Single")
 
     telephone = models.CharField(max_length=15, blank=True, null=True)

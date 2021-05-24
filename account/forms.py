@@ -220,7 +220,49 @@ class EmployeeProfileEditForm(forms.ModelForm):
                 'placeholder': 'Enter Last Name',
             }
         )
+        self.fields['operate'].widget.attrs.update(
+            {
+                'placeholder': 'by switching this your profile will no longer be accessible',
+            }
+        )
+
+        self.fields['civil'].widget.attrs.update(
+            {
+                'placeholder': 'Civil Status',
+            }
+        )
+        self.fields['telephone'].widget.attrs.update(
+            {
+                'placeholder': 'Phone Number',
+            }
+        )
+        self.fields['date_of_birth'].widget.attrs.update(
+            {
+                'placeholder': 'Enter your Date Of Birth',
+
+            }
+        )
+        self.fields['address'].widget.attrs.update(
+            {
+                'placeholder': 'Enter your address',
+            }
+        )
+        self.fields['zip_code'].widget.attrs.update(
+            {
+                'placeholder': 'Zip Code',
+            }
+        )
+        self.fields['city'].widget.attrs.update(
+            {
+                'placeholder': 'city of habitat',
+            }
+        )
+        self.fields['image'].widget.attrs.update(
+            {
+                'placeholder': 'Your Profile Picture ',
+            }
+        )
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "gender"]
+        fields = ["first_name", "last_name", "gender",'civil','telephone','date_of_birth','address','zip_code','city','operate','image']

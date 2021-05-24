@@ -61,7 +61,17 @@
             </div>
           </div>
 
-          {% else %}
+          {% elif field.name == 'is_active'  %}
+          <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
+              <label class="onoffswitch-label" for="myonoffswitch">
+                  <p>by switching this your profile will no longer be accessible</p>
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+          </div>
+
+          {%else%}
 
           <div class="row form-group">
             <div class="col-md-12 mb-3 mb-md-0">

@@ -42,7 +42,7 @@
         </div>
         {% endfor %}
         {% endif %}
-        <form method="POST" class="p-4 border rounded">
+        <form method="POST" class="p-4 border rounded" enctype="multipart/form-data">
           {% csrf_token %}
           {% for field in form %}
           {% if field.name == 'gender' %}
@@ -60,6 +60,33 @@
               </div>
             </div>
           </div>
+          {% elif field.name == 'operate'  %}
+          <span>By switching this off your profile will no longer be accessible nor appear to recruiters</span>
+          <div class="row form-group mb-4">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="operate" id="Active" value="yes"
+                  {% if field.value == 'yes' %} checked {% endif %}>
+                <label class="form-check-label" for="Active">Active</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="operate" id="Inactive" value="no"
+                  {% if field.value == 'no' %} checked {% endif %}>
+                <label class="form-check-label" for="Inactive">Inactive</label>
+              </div>
+            </div>
+          </div>
+
+          {% elif field.name == 'date_of_birth' %}
+          <div class="row form-group">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
+              <input type="date" class="form-control" name="{{ field.name }}"
+                id="id_{{ field.name }}" value="{{ field.value }}"
+                placeholder="{{ field.field.widget.attrs.placeholder }}" required>
+            </div>
+          </div>
+
 
           {% else %}
 

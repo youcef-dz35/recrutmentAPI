@@ -40,6 +40,7 @@ class Job(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
 
+
     def __str__(self):
         return self.title
 
