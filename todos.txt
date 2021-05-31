@@ -3,3 +3,6 @@ etat civil/
 address physique/
 num tel/
 active searcher /
+
+today I'll fix the bugs on the employer profile done    100%
+

@@ -15,6 +15,9 @@ from account.models import User
 from jobapp.forms import *
 from jobapp.models import *
 from jobapp.permission import *
+
+from jobapp.forms import EmployerProfileEditForm
+
 User = get_user_model()
 
 
@@ -406,3 +409,25 @@ def job_edit_view(request, id=id):
     }
 
     return render(request, 'jobapp/job-edit.html', context)
+
+
+def employer_edit_profile(request, id=id):
+    """
+    Handle Employee Profile Update Functionality
+
+    """
+
+    user = get_object_or_404(User, id=id)
+    form = EmployerProfileEditForm(request.POST or None, request.FILES or None, instance=user)
+    if form.is_valid():
+        form = form.save()
+        messages.success(request, 'Your Company Profile Was Successfully Updated!')
+        return redirect(reverse("jobapp:employer-edit-profile", kwargs={
+            'id': form.id
+        }))
+    context = {
+
+        'form': form
+    }
+
+    return render(request, 'account/employee-edit-profile.html', context)

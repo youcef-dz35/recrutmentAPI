@@ -207,4 +207,44 @@ class JobEditForm(forms.ModelForm):
         if commit:
             user.save()
         return job
+class EmployerProfileEditForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(EmployerProfileEditForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs.update(
+            {
+                'placeholder': 'Enter First Name',
+            }
+        )
+        self.fields['last_name'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Last Name',
+            }
+        )
+
+        self.fields['telephone'].widget.attrs.update(
+            {
+                'placeholder': 'Phone Number',
+            }
+        )
+
+        self.fields['zip_code'].widget.attrs.update(
+            {
+                'placeholder': 'Zip Code',
+            }
+        )
+        self.fields['city'].widget.attrs.update(
+            {
+                'placeholder': 'city of habitat',
+            }
+        )
+        self.fields['image'].widget.attrs.update(
+            {
+                'placeholder': 'Your Company LOGO ',
+            }
+        )
+
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name",'telephone','zip_code','city','image']
 

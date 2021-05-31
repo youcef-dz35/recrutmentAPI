@@ -61,7 +61,11 @@
                     </div>
                     <div class="col-md-2">
 <!--                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile">-->
+                        {% ifequal user.role 'employee'  %}
                         <a class="profile-edit-btn" name="btnAddMore" href="{% url 'account:edit-profile' request.user.id %}">Edit Profile</a>
+                        {% else %}
+                        <a class="profile-edit-btn" name="btnAddMore" href="{% url 'jobapp:employer-edit-profile' request.user.id %}">Edit Profile</a>
+                        {% endifequal %}
                     </div>
                 </div>
                 <div class="row">
@@ -100,14 +104,26 @@
                                                 <p>{{user.telephone}}</p>
                                             </div>
                                         </div>
+                                        {% ifequal user.role 'employer'  %}
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>Address</label>
+                                                <label>city</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{user.address}} </p>
+                                                <p>{{user.city}} </p>
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.adress}} </p>
+                                            </div>
+                                        </div>
+                                        {% endifequal %}
+
                                         {% if bday %}
                                         <div class="row">
                                             <div class="col-md-6">
