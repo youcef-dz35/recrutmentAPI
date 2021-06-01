@@ -5,4 +5,7 @@ num tel/
 active searcher /
 
 today I'll fix the bugs on the employer profile done    100%
+create multiple profiles on the app (employer/employee)     on the go
+add a functionality to aid the user to make an online cv and upload his cv  next in line
+
 
