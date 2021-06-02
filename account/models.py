@@ -72,9 +72,14 @@ class Experience(models.Model):
     description_deposte = models.CharField(max_length=1024, blank=True, null=True)
     def __str__(self):
         return self.name
+class Competence(models.Model):
+    competence= models.CharField(max_length=1024, blank=True, null=True)
+    def __str__(self):
+        return self.competence
 class cv(models.Model):
     name = models.CharField(max_length=1024, blank=True, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     experience = models.ForeignKey(Experience,on_delete=models.CASCADE)
+    competence = models.ForeignKey(Competence,on_delete=models.CASCADE)
     def __str__(self, experience=None):
         return self.name
