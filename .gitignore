@@ -23,7 +23,7 @@ media
 
 # C extensions
 *.so
-
+job/settings.py
 # Distribution / packaging
 .Python
 build/
@@ -142,5 +142,6 @@ pip-selfcheck.json
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
 
 # End of https://www.gitignore.io/api/django,virtualenv,visualstudiocode
