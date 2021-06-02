@@ -88,9 +88,9 @@ WSGI_APPLICATION = 'job.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'recapi',
-        'USER': 'postgres',
-        'PASSWORD': 'ramc7659170503',
+        'NAME': 'recapi1',
+        'USER': 'zaki',
+        'PASSWORD': 'jnoo2004',
         'HOST': 'localhost',
         'PORT': '',
     }

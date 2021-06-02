@@ -43,7 +43,8 @@ class User(AbstractUser):
     zip_code = models.CharField(max_length=12, blank=True, null=True)
     city = models.CharField(max_length=1024, blank=True, null=True)
     image = models.ImageField(null= True, upload_to='media', blank=True)
-
+    is_employee = models.BooleanField(default=False)
+    is_employer = models.BooleanField(default=False)
 
 
 
@@ -59,3 +60,21 @@ class User(AbstractUser):
     def get_full_name(self):
         return self.first_name+ ' ' + self.last_name
     objects = CustomUserManager()
+
+class Experience(models.Model):
+    name = models.CharField(max_length=15, blank=True, null=True)
+    date_debut = models.DateField( blank=True, null=True)
+    date_fin = models.DateField( blank=True, null=True)
+    poste = models.CharField(max_length=1024, blank=True, null=True)
+    fonction = models.CharField(max_length=1024, blank=True, null=True)
+    entreprise = models.CharField(max_length=1024, blank=True, null=True)
+    type_entreprise = models.CharField(max_length=1024, blank=True, null=True)
+    description_deposte = models.CharField(max_length=1024, blank=True, null=True)
+    def __str__(self):
+        return self.name
+class cv(models.Model):
+    name = models.CharField(max_length=1024, blank=True, null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    experience = models.ForeignKey(Experience,on_delete=models.CASCADE)
+    def __str__(self, experience=None):
+        return self.name
