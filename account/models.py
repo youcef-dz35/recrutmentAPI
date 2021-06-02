@@ -70,6 +70,8 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.name
+
+
 class Formation(models.Model):
     name = models.CharField(max_length=15, blank=True, null=True)
     date_debut = models.DateField(blank=True, null=True)
@@ -84,10 +86,18 @@ class Formation(models.Model):
         return self.name
 
 
+class Competence(models.Model):
+    competence = models.CharField(max_length=1024, blank=True, null=True)
+
+    def __str__(self):
+        return self.competence
+
+
 class cv(models.Model):
     name = models.CharField(max_length=1024, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     experience = models.ForeignKey(Experience, on_delete=models.CASCADE)
+    competence = models.ForeignKey(Competence, on_delete=models.CASCADE)
     Formation = models.ForeignKey(Formation, on_delete=models.CASCADE)
 
     def __str__(self, experience=None):
