@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import User
+from .models import *
 
 
 class AddUserForm(forms.ModelForm):
@@ -19,7 +19,9 @@ class AddUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'gender', 'role','isActive','civil','telephone','date_of_birth','address','zip_code','city','image','operate' )
+        fields = (
+            'email', 'first_name', 'last_name', 'gender', 'role', 'isActive', 'civil', 'telephone', 'date_of_birth',
+            'address', 'zip_code', 'city', 'image', 'operate')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -48,11 +50,12 @@ class UpdateUserForm(forms.ModelForm):
         model = User
         fields = (
             'email', 'password', 'first_name', 'gender', 'role', 'last_name', 'is_active',
-            'is_staff','isActive','civil','telephone','date_of_birth','address','zip_code','city','image','operate'
+            'is_staff', 'isActive', 'civil', 'telephone', 'date_of_birth', 'address', 'zip_code', 'city', 'image',
+            'operate'
         )
 
     def clean_password(self):
-# Password can't be changed in the admin
+        # Password can't be changed in the admin
         return self.initial["password"]
 
 
@@ -60,11 +63,14 @@ class UserAdmin(BaseUserAdmin):
     form = UpdateUserForm
     add_form = AddUserForm
 
-    list_display = ('email', 'first_name', 'last_name', 'gender', 'role', 'is_staff','isActive','civil','telephone','date_of_birth','address','zip_code','operate','city','image')
-    list_filter = ('is_staff', )
+    list_display = (
+        'email', 'first_name', 'last_name', 'gender', 'role', 'is_staff', 'isActive', 'civil', 'telephone',
+        'date_of_birth',
+        'address', 'zip_code', 'operate', 'city', 'image')
+    list_filter = ('is_staff',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'gender', 'role','image','operate' )}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'gender', 'role', 'image', 'operate')}),
         ('Permissions', {'fields': ('is_active', 'is_staff')}),
     )
     add_fieldsets = (
@@ -74,7 +80,7 @@ class UserAdmin(BaseUserAdmin):
                 'classes': ('wide',),
                 'fields': (
                     'email', 'first_name', 'last_name', 'gender', 'role', 'password1',
-                    'password2','operate'
+                    'password2', 'operate'
                 )
             }
         ),
@@ -85,3 +91,34 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+
+
+class userCv(admin.ModelAdmin):
+    list_display = ('name', 'user', 'experience', 'competence', 'formation')
+
+
+admin.site.register(cv, userCv)
+
+
+class userFormation(admin.ModelAdmin):
+    list_display = ('name', 'date_debut', 'date_fin', 'domain', 'type', 'etude', 'ecole', 'description')
+
+
+admin.site.register(Formation, userFormation)
+
+
+class userExperience(admin.ModelAdmin):
+    list_display = ('name', 'date_debut', 'date_fin', 'poste', 'fonction', 'entreprise', 'type_entreprise', 'description_deposte')
+
+
+admin.site.register(Experience, userExperience)
+
+
+
+class userCompetence(admin.ModelAdmin):
+    list_display = ('competence',)
+
+
+
+admin.site.register(Competence, userCompetence)
+

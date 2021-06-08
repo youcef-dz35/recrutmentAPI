@@ -96,9 +96,9 @@ class Competence(models.Model):
 class cv(models.Model):
     name = models.CharField(max_length=1024, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    experience = models.ForeignKey(Experience, on_delete=models.CASCADE)
-    competence = models.ForeignKey(Competence, on_delete=models.CASCADE)
-    Formation = models.ForeignKey(Formation, on_delete=models.CASCADE)
+    experience = models.ForeignKey(Experience, on_delete=models.CASCADE, blank=True, null=True)
+    competence = models.ForeignKey(Competence, on_delete=models.CASCADE, blank=True, null=True)
+    formation = models.ForeignKey(Formation, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self, experience=None):
         return self.name
