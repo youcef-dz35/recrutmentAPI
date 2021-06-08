@@ -3,90 +3,71 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 
 from account.models import User
+from account.models import Experience
 
 
-class EmployeeRegistrationForm(UserCreationForm):
-
+class EmployeeExperienceForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         UserCreationForm.__init__(self, *args, **kwargs)
-        self.fields['gender'].required = True
-        self.fields['first_name'].label = "First Name :"
-        self.fields['last_name'].label = "Last Name :"
-        self.fields['password1'].label = "Password :"
-        self.fields['password2'].label = "Confirm Password :"
-        self.fields['email'].label = "Email :"
-        self.fields['gender'].label = "Gender :"
-        self.fields['civil'].label = "Civil Status :"
-        self.fields['telephone'].label = "Telephone :"
-        self.fields['date_of_birth'].label = "Date of Birth :"
-        self.fields['address'].label = "Address :"
-        self.fields['zip_code'].label = "Zip code :"
-        self.fields['city'].label = "City :"
 
-        self.fields['first_name'].widget.attrs.update(
+        self.fields['name'].label = "name   :"
+        self.fields['date_debut'].label = "Date debut :"
+        self.fields['date_fin'].label = "Date fin :"
+        self.fields['poste'].label = "Poste :"
+        self.fields['fonction'].label = "Fonction :"
+        self.fields['entreprise'].label = "Entreprise :"
+        self.fields['type_entreprise'].label = "Type_entreprise :"
+        self.fields['description_deposte'].label = "Description_deposte :"
+
+        self.fields['name'].widget.attrs.update(
             {
-                'placeholder': 'Enter First Name',
+                'placeholder': 'Enter Name',
             }
         )
-        self.fields['last_name'].widget.attrs.update(
+        self.fields['date_debut'].widget.attrs.update(
             {
-                'placeholder': 'Enter Last Name',
+                'placeholder': 'Date debut',
             }
         )
-        self.fields['email'].widget.attrs.update(
+        self.fields['date_fin'].widget.attrs.update(
             {
-                'placeholder': 'Enter Email',
+                'placeholder': 'Enter date fin',
             }
         )
-        self.fields['civil'].widget.attrs.update(
+        self.fields['poste'].widget.attrs.update(
             {
-                'placeholder': 'Civil Status',
+                'placeholder': 'poste',
             }
         )
-        self.fields['telephone'].widget.attrs.update(
+        self.fields['fonction'].widget.attrs.update(
             {
-                'placeholder': 'Phone Number',
+                'placeholder': 'Fonction',
             }
         )
-        self.fields['date_of_birth'].widget.attrs.update(
+        self.fields['entreprise'].widget.attrs.update(
             {
-                'placeholder': 'Enter your Date Of Birth',
+                'placeholder': 'Enter entreprise',
 
             }
         )
-        self.fields['address'].widget.attrs.update(
+        self.fields['type_entreprise'].widget.attrs.update(
             {
-                'placeholder': 'Enter your address',
+                'placeholder': 'type entreprise',
             }
         )
-        self.fields['zip_code'].widget.attrs.update(
+        self.fields['description_deposte'].widget.attrs.update(
             {
-                'placeholder': 'Zip Code',
-            }
-        )
-        self.fields['city'].widget.attrs.update(
-            {
-                'placeholder': 'city of habitat',
-            }
-        )
-
-        self.fields['password1'].widget.attrs.update(
-            {
-                'placeholder': 'Enter Password',
-            }
-        )
-        self.fields['password2'].widget.attrs.update(
-            {
-                'placeholder': 'Confirm Password',
+                'placeholder': 'descritpion de poste',
             }
         )
 
     class Meta:
 
-        model=User
+        model = Experience
 
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'gender','civil','telephone','date_of_birth','address','zip_code','city']
+        fields = ['name', 'date_debut', 'date_fin', 'poste', 'fonction', 'entreprise', 'type_entreprise',
+                  'description_deposte']
 
     def clean_gender(self):
         gender = self.cleaned_data.get('gender')
@@ -94,9 +75,8 @@ class EmployeeRegistrationForm(UserCreationForm):
             raise forms.ValidationError("Gender is required")
         return gender
 
-
     def save(self, commit=True):
-        user = UserCreationForm.save(self,commit=False)
+        user = UserCreationForm.save(self, commit=False)
         user.role = "employee"
         if commit:
             user.save()
@@ -158,15 +138,83 @@ class EmployerRegistrationForm(UserCreationForm):
                 'placeholder': 'Confirm Password',
             }
         )
+
     class Meta:
+        model = User
 
-        model=User
-
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2','telephone','city','zip_code']
-
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'telephone', 'city', 'zip_code']
 
     def save(self, commit=True):
-        user = UserCreationForm.save(self,commit=False)
+        user = UserCreationForm.save(self, commit=False)
+        user.role = "employer"
+        if commit:
+            user.save()
+        return user
+
+
+class EmployerRegistrationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        UserCreationForm.__init__(self, *args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['first_name'].label = "Company Name"
+        self.fields['last_name'].label = "Company Address"
+        self.fields['password1'].label = "Password"
+        self.fields['password2'].label = "Confirm Password"
+        self.fields['telephone'].label = "Telephone :"
+        self.fields['zip_code'].label = "Zip code :"
+        self.fields['city'].label = "City :"
+
+        self.fields['first_name'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Company Name',
+            }
+        )
+        self.fields['last_name'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Company Address',
+            }
+        )
+        self.fields['email'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Email',
+            }
+        )
+
+        self.fields['telephone'].widget.attrs.update(
+            {
+                'placeholder': 'Phone Number',
+            }
+        )
+
+        self.fields['city'].widget.attrs.update(
+            {
+                'placeholder': 'city where the company resides',
+            }
+        )
+        self.fields['zip_code'].widget.attrs.update(
+            {
+                'placeholder': 'Zip Code',
+            }
+        )
+        self.fields['password1'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Password',
+            }
+        )
+        self.fields['password2'].widget.attrs.update(
+            {
+                'placeholder': 'Confirm Password',
+            }
+        )
+
+    class Meta:
+        model = User
+
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'telephone', 'city', 'zip_code']
+
+    def save(self, commit=True):
+        user = UserCreationForm.save(self, commit=False)
         user.role = "employer"
         if commit:
             user.save()
@@ -174,12 +222,12 @@ class EmployerRegistrationForm(UserCreationForm):
 
 
 class UserLoginForm(forms.Form):
-    email =  forms.EmailField(
-    widget=forms.EmailInput(attrs={ 'placeholder':'Email',})
-) 
-    password = forms.CharField(strip=False,widget=forms.PasswordInput(attrs={
-        
-        'placeholder':'Password',
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'placeholder': 'Email', })
+    )
+    password = forms.CharField(strip=False, widget=forms.PasswordInput(attrs={
+
+        'placeholder': 'Password',
     }))
 
     def clean(self, *args, **kwargs):
@@ -203,7 +251,6 @@ class UserLoginForm(forms.Form):
 
     def get_user(self):
         return self.user
-
 
 
 class EmployeeProfileEditForm(forms.ModelForm):
@@ -265,4 +312,5 @@ class EmployeeProfileEditForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "gender",'civil','telephone','date_of_birth','address','zip_code','city','operate','image']
+        fields = ["first_name", "last_name", "gender", 'civil', 'telephone', 'date_of_birth', 'address', 'zip_code',
+                  'city', 'operate', 'image']
