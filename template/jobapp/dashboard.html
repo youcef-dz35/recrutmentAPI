@@ -119,7 +119,7 @@
                                                 <label>address</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>{{user.adress}} </p>
+                                                <p>{{user.address}} </p>
                                             </div>
                                         </div>
                                         {% endifequal %}
@@ -184,8 +184,20 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"><br>
+                            <a class="button" href="{% url 'jobapp:addCV' request.user.id %}">Add new CV</a>
+                            </div>
+                            <div class="col-md-4"></div>
+
+
+
+                        </div>
                     </div>
                 </div>
+
             </form>
         </div>
     <div class="container">

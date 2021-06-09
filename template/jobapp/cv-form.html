@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- HOME -->
+<section class="section-hero overlay inner-page bg-image"
+  style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-white font-weight-bold">New CV</h1>
+        <div class="custom-breadcrumbs">
+          <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+          <span class="text-white"><strong>Create new CV</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="site-section pt-0">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+          <div class="">
+              <div class="card px-3 pt-4 pb-0 mt-3 mb-3">
+                  <h2 id="heading">Create new CV</h2>
+                  <p>Fill all form field to go to next step</p>
+                  <form id="msform">
+                      <!-- progressbar -->
+                      <ul id="progressbar">
+                          <li class="active" id="account"><strong>Experiences</strong></li>
+                          <li id="personal"><strong>Formations</strong></li>
+                          <li id="payment"><strong>Complete your skills</strong></li>
+                          <li id="confirm"><strong>Finish</strong></li>
+                      </ul>
+                      <div class="progress">
+                          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div> <br> <!-- fieldsets -->
+                      <fieldset>
+                          <div class="form-card">
+                              <div class="row">
+                                  <div class="col-7">
+                                      <h2 class="fs-title">Add an experience:</h2>
+                                  </div>
+                                  <div class="col-5">
+                                      <h2 class="steps">Step 1 - 4</h2>
+                                  </div>
+                              </div>
+                                    <div class="row">
+                                      <div class="col-sm-6"><label class="fieldlabels">Entry date: *</label> <input type="date" name="Entry date" placeholder="Entry date" /></div>
+                                      <div class="col-sm-6"><label class="fieldlabels">Finish date: *</label> <input type="date" name="finish date" placeholder="finish date" /></div>
+
+                                    </div>
+                                  <div class="row">
+                                      <div class="col-sm-6"><label class="fieldlabels">Job title: *</label> <input type="text" name="jobTitle" placeholder="Job title" /></div>
+                                      <div class="col-sm-6">
+                                          <label class="fieldlabels" for="fonction">Field:</label>
+                                          <select id="fonction" name="Field">
+                                            <option value="IT">IT</option>
+                                            <option value="marketing">Marketing</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="other">other</option>
+                                          </select>
+                                      </div>
+
+                                  </div>
+                                    <div class="row">
+                                      <div class="col-sm-4"><label class="fieldlabels">Enterprise name: *</label> <input type="text" name="enterprise name" placeholder="Enterprise name" /></div>
+                                        <div class="col-sm-4">
+                                          <label class="fieldlabels" for="fonction">Enterprise type:</label>
+                                          <select id="EnterpriseType" name="Enterprise type">
+                                            <option value="IT">Multinational</option>
+                                            <option value="marketing">Marketing</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="other">other</option>
+                                          </select>
+                                      </div>
+                                     <div class="col-sm-4">
+                                          <label class="fieldlabels" for="fonction">Activity sector :*</label>
+                                          <select id="Activity sector" name="Activity sector">
+                                            <option value="IT">Bourse</option>
+                                            <option value="marketing">Capital risk</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="other">other</option>
+                                          </select>
+                                      </div>
+                                    </div>
+
+                                    <label class="fieldlabels">Job description</label> <textarea  name="description" placeholder="description"></textarea>
+                          </div> <input type="button" name="next" class="next action-button" value="Next" />
+                      </fieldset>
+                      <fieldset>
+                          <div class="form-card">
+                              <div class="row">
+                                  <div class="col-7">
+                                      <h2 class="fs-title">Add a Formation:</h2>
+                                  </div>
+                                  <div class="col-5">
+                                      <h2 class="steps">Step 2 - 4</h2>
+                                  </div>
+                              </div> <label class="fieldlabels">Finish date: *</label> <input type="date" name="finish date" placeholder="finish date" /> <label class="fieldlabels">Title: *</label> <input type="text" name="formationTitle" placeholder="Title of formation" />
+                              <div class="row">
+                                      <div class="col-sm-6">
+                                          <label class="fieldlabels" for="fonction">Domain:</label>
+                                          <select id="fonction" name="Field">
+                                            <option value="IT">Low</option>
+                                            <option value="marketing">Marketing</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="other">other</option>
+                                          </select>
+                                      </div>
+                                  <div class="col-sm-6">
+                                          <label class="fieldlabels" for="fonction">Type:</label>
+                                          <select id="fonction" name="Field">
+                                            <option value="IT">licence</option>
+                                            <option value="marketing">Master</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="other">other</option>
+                                          </select>
+                                      </div>
+
+                                  </div>
+                                    <div class="row">
+                                      <div class="col-sm-6">
+                                          <label class="fieldlabels" for="fonction">highest level of studies:</label>
+                                          <select id="fonction" name="Field">
+                                            <option value="IT">Bac</option>
+                                            <option value="marketing">Bac + 3</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="other">other</option>
+                                          </select>
+                                      </div>
+                                       <div class="col-sm-6">
+                                          <label class="fieldlabels">University / institution: *</label> <input type="text" name="ecole" placeholder="institution" />
+                                      </div>
+
+                                  </div>
+                              <label class="fieldlabels">Description: *</label> <textarea  name="description" placeholder="description"></textarea>
+                          </div> <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                      </fieldset>
+                      <fieldset>
+                          <div class="form-card">
+                              <div class="row">
+                                  <div class="col-7">
+                                      <h2 class="fs-title">Image Upload:</h2>
+                                  </div>
+                                  <div class="col-5">
+                                      <h2 class="steps">Step 3 - 4</h2>
+                                  </div>
+                              </div> <label class="fieldlabels">Upload Your CV:</label> <input type="file" name="cvPdf" accept="image/*,application/pdf">
+                              <div class="col-sm-12">
+                                <label class="fieldlabels">Skills: *</label>
+                                <input type="text" value=" microsoft word , Critical Thinking, Flexibility" data-role="tagsinput"></input>
+                              </div>
+
+                          </div> <input type="button" name="next" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                      </fieldset>
+                      <fieldset>
+                          <div class="form-card">
+                              <div class="row">
+                                  <div class="col-7">
+                                      <h2 class="fs-title">Finish:</h2>
+                                  </div>
+                                  <div class="col-5">
+                                      <h2 class="steps">Step 4 - 4</h2>
+                                  </div>
+                              </div> <br><br>
+                              <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
+                              <div class="row justify-content-center">
+                                  <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> </div>
+                              </div> <br><br>
+                              <div class="row justify-content-center">
+                                  <div class="col-7 text-center">
+                                      <h5 class="purple-text text-center">You Have Successfully Created a cv, check out our job offers</h5>
+                                  </div>
+                              </div>
+                          </div>
+                      </fieldset>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

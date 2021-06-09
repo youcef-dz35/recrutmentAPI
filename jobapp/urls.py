@@ -23,6 +23,7 @@ urlpatterns = [
     path('dashboard/employer/delete/<int:id>/', views.delete_job_view, name='delete'),
     path('dashboard/employee/delete-bookmark/<int:id>/', views.delete_bookmark_view, name='delete-bookmark'),
     path('employer/profile/edit/<int:id>/', views.employer_edit_profile, name='employer-edit-profile'),
+    path('employee/addCv/<int:id>/', views.addNewCv, name='addCV'),
 
 
 ]
