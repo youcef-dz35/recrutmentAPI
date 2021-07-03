@@ -185,17 +185,59 @@
                             </div>
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4"><br>
-                            <a class="button" href="{% url 'jobapp:addCV' request.user.id %}">Add new CV</a>
-                            </div>
-                            <div class="col-md-4"></div>
 
-
-
-                        </div>
                     </div>
+                    <div class="container">
+                    <!--                    binging of the cv row-->
+                        <div class="row">
+
+                          <div class="col-sm-4" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 211px; width:359px ; background: #e6e6e6;">
+                            <div class="card">
+                              <div class="card-body addcv">
+
+                                  <a href="{% url 'jobapp:newCV'%}" class="btn-u tooltips add-cv-btn" data-toogle="tooltip" title="Add new cv"> <i class="fa fa-plus fa-2x"></i><p>New cv</p> </a>
+                              </div>
+                            </div>
+                          </div>
+
+                    </div>
+<!--                    end of cv rows-->
+
+<!--                    biginng of the cv row-->
+                        <div class="row mt-2">
+                          <div class="col-sm-4">
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Special title treatment</h5>
+                                <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Special title treatment</h5>
+                                <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Special title treatment</h5>
+                                <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                              </div>
+                            </div>
+                          </div>
+
+                    </div>
+<!--                    end of cv rows-->
+                </div>
+
+
                 </div>
 
             </form>

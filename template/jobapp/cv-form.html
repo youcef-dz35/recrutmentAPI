@@ -23,9 +23,21 @@
       <div class="row justify-content-center">
           <div class="">
               <div class="card px-3 pt-4 pb-0 mt-3 mb-3">
+
                   <h2 id="heading">Create new CV</h2>
                   <p>Fill all form field to go to next step</p>
-                  <form id="msform">
+                  <form id="msform" method="POST" enctype="multipart/form-data">
+                      {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger alert-dismissable">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <strong>{{ field.label }}: {{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                      {% endif %}
+                      {% csrf_token %}
                       <!-- progressbar -->
                       <ul id="progressbar">
                           <li class="active" id="account"><strong>Experiences</strong></li>
@@ -142,7 +154,7 @@
                           <div class="form-card">
                               <div class="row">
                                   <div class="col-7">
-                                      <h2 class="fs-title">Image Upload:</h2>
+                                      <h2 class="fs-title"> Upload CV :</h2>
                                   </div>
                                   <div class="col-5">
                                       <h2 class="steps">Step 3 - 4</h2>
@@ -150,7 +162,7 @@
                               </div> <label class="fieldlabels">Upload Your CV:</label> <input type="file" name="cvPdf" accept="image/*,application/pdf">
                               <div class="col-sm-12">
                                 <label class="fieldlabels">Skills: *</label>
-                                <input type="text" value=" microsoft word , Critical Thinking, Flexibility" data-role="tagsinput"></input>
+                                <input name="skills" type="text" value=" microsoft word , Critical Thinking, Flexibility" data-role="tagsinput"></input>
                               </div>
 
                           </div> <input type="button" name="next" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />

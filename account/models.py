@@ -58,6 +58,17 @@ class User(AbstractUser):
     objects = CustomUserManager()
 
 
+class cv(models.Model):
+    name = models.CharField(max_length=1024, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # experience = models.ForeignKey(Experience, related_name='experience', on_delete=models.CASCADE, blank=True, null=True)
+    # competence = models.ForeignKey(Competence, related_name='comp' ,on_delete=models.CASCADE, blank=True, null=True)
+    # formation = models.ForeignKey(Formation, related_name='formation', on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self, experience=None):
+        return str(self.name)
+
+
 class Experience(models.Model):
     name = models.CharField(max_length=15, blank=True, null=True)
     date_debut = models.DateField(blank=True, null=True)
@@ -67,9 +78,11 @@ class Experience(models.Model):
     entreprise = models.CharField(max_length=1024, blank=True, null=True)
     type_entreprise = models.CharField(max_length=1024, blank=True, null=True)
     description_deposte = models.CharField(max_length=1024, blank=True, null=True)
+    cv = models.ForeignKey(cv, related_name='ecv', on_delete=models.CASCADE,blank=True,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Formation(models.Model):
@@ -81,24 +94,19 @@ class Formation(models.Model):
     etude = models.CharField(max_length=100, blank=True, null=True)
     ecole = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(max_length=1024, blank=True, null=True)
+    cv = models.ForeignKey(cv, related_name='fcv', on_delete=models.CASCADE,blank=True,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
-        return self.name
+        return str(self.etude)
 
 
 class Competence(models.Model):
     competence = models.CharField(max_length=1024, blank=True, null=True)
+    cv = models.ForeignKey(cv, related_name='ccv', on_delete=models.CASCADE,blank=True,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
-        return self.competence
+        return str(self.competence)
 
 
-class cv(models.Model):
-    name = models.CharField(max_length=1024, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    experience = models.ForeignKey(Experience, on_delete=models.CASCADE, blank=True, null=True)
-    competence = models.ForeignKey(Competence, on_delete=models.CASCADE, blank=True, null=True)
-    formation = models.ForeignKey(Formation, on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self, experience=None):
-        return self.name

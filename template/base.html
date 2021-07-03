@@ -174,7 +174,8 @@
 <!--new created markdown-->
 * {
     margin: 0;
-    padding: 0
+    padding: 0;
+
 }
 
 html {
@@ -188,7 +189,7 @@ p {
 #heading {
     text-transform: uppercase;
     color: #673AB7;
-    font-weight: normal
+
 }
 
 #msform {
@@ -390,9 +391,14 @@ p {
     width: 100%;
     object-fit: cover
 }
+.addcv a p {display:none;}
+.addcv a:hover p {display:block;}
+.addcv a:hover {display:block;}
+
       </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
 
@@ -403,6 +409,12 @@ p {
             {% include 'scripts.html' %} 
             {% block extra_scripts %} {% endblock %}
       </body>
+
+      <script>
+             $("input[name='tags']").tagsinput({
+                   confirmKeys:[13] //-- Only enter
+                 });
+      </script>
 <script>
  $(document).ready(function(){
 

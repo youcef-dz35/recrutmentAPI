@@ -12,10 +12,10 @@ Django 3.0
 
 ```
 open terminal and type
-https://github.com/Sany07/Job-Portal.git
+https://github.com/youcef-dz35/recrutmentAPI
 
 or simply download using the url below
-https://github.com/Sany07/Job-Portal.git
+https://github.com/youcef-dz35/recrutmentAPI.git
 ```
 
 ## Install requirements

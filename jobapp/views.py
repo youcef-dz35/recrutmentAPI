@@ -1,4 +1,5 @@
 from datetime import date
+from pprint import pprint
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -10,12 +11,12 @@ from django.urls import reverse, reverse_lazy
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.core.serializers import serialize
 
-from account.models import User
-from jobapp.forms import *
+from account.models import *
+
 from jobapp.models import *
 from jobapp.permission import *
+from .forms import *
 
-from jobapp.forms import EmployerProfileEditForm
 
 User = get_user_model()
 
@@ -231,13 +232,17 @@ def dashboard_view(request):
     savedjobs = []
     appliedjobs = []
     total_applicants = {}
+
     user = get_object_or_404(User, id=request.user.id)
     today = date.today()
     if user.role == 'employee':
         bday = today.year - user.date_of_birth.year - (
-                    (today.month, today.day) < (user.date_of_birth.month, user.date_of_birth.day))
+                (today.month, today.day) < (user.date_of_birth.month, user.date_of_birth.day))
+
+    cvs = cv.objects.filter(user=request.user.id)
 
     print(user.__dict__)
+    print(cvs.__dict__)
     if request.user.role == 'employer':
 
         jobs = Job.objects.filter(user=request.user.id)
@@ -246,6 +251,7 @@ def dashboard_view(request):
             total_applicants[job.id] = count
 
     if request.user.role == 'employee':
+        cvs = cv.objects.filter(user = request.user.id)
         savedjobs = BookmarkJob.objects.filter(user=request.user.id)
         appliedjobs = Applicant.objects.filter(user=request.user.id)
 
@@ -422,4 +428,172 @@ def employer_edit_profile(request, id=id):
 
 
 def addNewCv(request, id=id):
+    # form = JobForm(request.POST or None)
+    #
+    # user = get_object_or_404(User, id=request.user.id)
+    # categories = Category.objects.all()
+    #
+    # if request.method == 'POST':
+    #
+    #     if form.is_valid():
+    #         instance = form.save(commit=False)
+    #         instance.user = user
+    #         instance.save()
+    #         # for save tags
+    #         form.save_m2m()
+    #         messages.success(
+    #             request, 'You are successfully posted your job! Please wait for review.')
+    #         return redirect(reverse("jobapp:single-job", kwargs={
+    #             'id': instance.id
+    #         }))
+    #
+    # context = {
+    #     'form': form,
+    #     'categories': categories
+    # }
+    # return render(request, 'jobapp/post-job.html', context)
+
     return render(request, 'jobapp/cv-form.html')
+
+
+def addCv(request):
+    form = cvForm(request.POST or None)
+
+    user = get_object_or_404(User, id=request.user.id)
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user
+            instance.save()
+            # for save tags
+            form.save_m2m()
+            messages.success(request, 'You are successfully named the title of your cv .')
+            return redirect(reverse("jobapp:newExperiance", kwargs={
+                'id': instance.id
+            }))
+            # return render(request, 'jobapp/dashboard.html')
+
+
+
+
+    context = {
+        'form': form,
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/newcv.html', context)
+
+
+def addnewExperiance(request, id=id):
+    cvs = cv.objects.get(pk=id)
+    form = addExperianceForm(request.POST or None)
+    tosend = int(cvs.id)
+    user = get_object_or_404(User, id=request.user.id)
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user
+            instance.cv = cvs
+            instance.save()
+            # for save tags
+            form.save_m2m()
+            messages.success(request, 'You are successfully added new experience .')
+            return redirect(reverse("jobapp:newFormation", kwargs={
+                'id': tosend
+            }))
+
+    context = {
+        'form': form,
+        'cv': cvs,
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/addexperiance.html',context)
+
+
+def addnewFormation(request, id=id):
+
+    cvs = cv.objects.get(pk=id)
+
+    form = addnewFormationForm(request.POST or None)
+
+
+
+
+    user = get_object_or_404(User, id=request.user.id)
+
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user
+            instance.cv = cvs
+            instance.save()
+            # for save tags
+            form.save_m2m()
+            messages.success(request, 'You are successfully added new experience .')
+            return redirect(reverse("jobapp:newSkill", kwargs={
+                'id': cvs.id
+            }))
+
+    context = {
+        'form': form,
+
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/addFormation.html',context)
+def addnewSkill(request, id=id):
+
+    cvs = cv.objects.get(pk=id)
+
+    form = addSkillForm(request.POST or None)
+
+
+
+
+    user = get_object_or_404(User, id=request.user.id)
+
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user
+            instance.cv = cvs
+            instance.save()
+            # for save tags
+            form.save_m2m()
+            messages.success(request, 'You are successfully added new experience .')
+            return redirect(reverse("jobapp:cvCompleted", kwargs={
+                'id': cvs.id
+            }))
+
+    context = {
+        'form': form,
+
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/addskills.html',context)
+
+
+def cvCompleted(request, id=id):
+
+    user = get_object_or_404(User, id=request.user.id)
+    context = {
+
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/cvcompleted.html', context)

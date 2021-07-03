@@ -94,31 +94,30 @@ admin.site.register(User, UserAdmin)
 
 
 class userCv(admin.ModelAdmin):
-    list_display = ('name', 'user', 'experience', 'competence', 'formation')
+    list_display = ('name', 'user')
 
 
 admin.site.register(cv, userCv)
 
 
 class userFormation(admin.ModelAdmin):
-    list_display = ('name', 'date_debut', 'date_fin', 'domain', 'type', 'etude', 'ecole', 'description')
+    list_display = ('name', 'date_debut', 'date_fin', 'domain', 'type', 'etude', 'ecole', 'description', 'cv', 'user', )
 
 
 admin.site.register(Formation, userFormation)
 
 
 class userExperience(admin.ModelAdmin):
-    list_display = ('name', 'date_debut', 'date_fin', 'poste', 'fonction', 'entreprise', 'type_entreprise', 'description_deposte')
+    list_display = (
+        'name', 'date_debut', 'date_fin', 'poste', 'fonction', 'entreprise', 'type_entreprise', 'description_deposte',
+        'cv', 'user', )
 
 
 admin.site.register(Experience, userExperience)
 
 
-
 class userCompetence(admin.ModelAdmin):
-    list_display = ('competence',)
-
+    list_display = ('competence', 'cv', 'user', )
 
 
 admin.site.register(Competence, userCompetence)
-
