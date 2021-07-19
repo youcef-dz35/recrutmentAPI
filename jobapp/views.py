@@ -120,6 +120,8 @@ def single_job_view(request, id):
     """
 
     job = get_object_or_404(Job, id=id)
+    mainCV = cv.objects.filter(default=True).get()
+
     related_job_list = job.tags.similar_objects()
 
     paginator = Paginator(related_job_list, 5)
@@ -129,7 +131,8 @@ def single_job_view(request, id):
     context = {
         'job': job,
         'page_obj': page_obj,
-        'total': len(related_job_list)
+        'total': len(related_job_list),
+        'mainCV': mainCV,
 
     }
     return render(request, 'jobapp/job-single.html', context)
@@ -194,23 +197,41 @@ def apply_job_view(request, id):
     form = JobApplyForm(request.POST or None)
 
     user = get_object_or_404(User, id=request.user.id)
+
+    mainCV = cv.objects.filter(user=request.user.id, default=True).get()
+
     applicant = Applicant.objects.filter(user=user, job=id)
+    print(mainCV.__dict__)
 
     if not applicant:
         if request.method == 'POST':
+            if 'apply' in request.POST:
+                if form.is_valid():
+                    instance = form.save(commit=False)
+                    instance.user = user
+                    instance.cv_id = mainCV.id
+                    instance.save()
 
-            if form.is_valid():
-                instance = form.save(commit=False)
-                instance.user = user
-                instance.save()
+                    messages.success(
+                        request, 'You have successfully applied for this job!')
+                    return redirect(reverse("jobapp:single-job", kwargs={
+                        'id': id
+                    }))
+    if applicant:
+            if 'unapply' in request.POST:
+                if form.is_valid():
 
-                messages.success(
-                    request, 'You have successfully applied for this job!')
-                return redirect(reverse("jobapp:single-job", kwargs={
-                    'id': id
-                }))
+                    job = Applicant.objects.get(user=user.id, job=id)
+                    job.delete()
+                    messages.success(
+                        request, 'You have successfully delete your application for this job!')
+                    return redirect(reverse("jobapp:single-job", kwargs={
+                        'id': id
+                    }))
 
-        else:
+
+
+
             return redirect(reverse("jobapp:single-job", kwargs={
                 'id': id
             }))
@@ -239,7 +260,7 @@ def dashboard_view(request):
         bday = today.year - user.date_of_birth.year - (
                 (today.month, today.day) < (user.date_of_birth.month, user.date_of_birth.day))
 
-    cvs = cv.objects.filter(user=request.user.id)
+    cvs = cv.objects.filter(user = request.user.id)
 
     print(user.__dict__)
     print(cvs.__dict__)
@@ -251,7 +272,7 @@ def dashboard_view(request):
             total_applicants[job.id] = count
 
     if request.user.role == 'employee':
-        cvs = cv.objects.filter(user = request.user.id)
+        cvs = cv.objects.filter(user=request.user.id)
         savedjobs = BookmarkJob.objects.filter(user=request.user.id)
         appliedjobs = Applicant.objects.filter(user=request.user.id)
 
@@ -261,7 +282,8 @@ def dashboard_view(request):
             'jobs': jobs,
             'savedjobs': savedjobs,
             'appliedjobs': appliedjobs,
-            'total_applicants': total_applicants
+            'total_applicants': total_applicants,
+            'cvs': cvs
         }
     else:
         context = {
@@ -551,6 +573,8 @@ def addnewFormation(request, id=id):
     }
 
     return render(request, 'jobapp/addFormation.html',context)
+
+
 def addnewSkill(request, id=id):
 
     cvs = cv.objects.get(pk=id)
@@ -597,3 +621,107 @@ def cvCompleted(request, id=id):
     }
 
     return render(request, 'jobapp/cvcompleted.html', context)
+
+
+def addnewExperiancedashboard(request, id=id):
+    cvs = cv.objects.get(name=id)
+    form = addExperianceForm(request.POST or None)
+    tosend = int(cvs.id)
+    user = get_object_or_404(User, id=request.user.id)
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user
+            instance.cv = cvs
+            instance.save()
+            # for save tags
+            form.save_m2m()
+            messages.success(request, 'You are successfully added new experience .')
+            return redirect(reverse("jobapp:dashboard"))
+
+    context = {
+        'form': form,
+        'cv': cvs,
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/addNewExperience.html',context)
+
+def addnewFormationdashboard(request, id=id):
+
+    cvs = cv.objects.get(name=id)
+
+    form = addnewFormationForm(request.POST or None)
+
+
+
+
+    user = get_object_or_404(User, id=request.user.id)
+
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user
+            instance.cv = cvs
+            instance.save()
+            # for save tags
+            form.save_m2m()
+            messages.success(request, 'You are successfully added new experience .')
+            return redirect(reverse("jobapp:dashboard"))
+
+    context = {
+        'form': form,
+
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/addNewFormation.html',context)
+
+def addnewSkilldashboard(request, id=id):
+
+    cvs = cv.objects.get(name=id)
+
+    form = addSkillForm(request.POST or None)
+
+
+
+
+    user = get_object_or_404(User, id=request.user.id)
+
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user
+            instance.cv = cvs
+            instance.save()
+            # for save tags
+            form.save_m2m()
+            messages.success(request, 'You are successfully added new experience .')
+            return redirect(reverse("jobapp:dashboard"))
+
+    context = {
+        'form': form,
+
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/addNewSkill.html',context)
+
+
+def makeDefault(request,id=id):
+
+    cv.objects.all().update(default= False)
+    cvs = cv.objects.get(name=id)
+    cvs.default = True
+    cvs.save()
+
+    return redirect(reverse("jobapp:dashboard"))

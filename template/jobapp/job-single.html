@@ -92,17 +92,19 @@
           <div class="col-7">
             {% if user.is_authenticated and user.role == 'employee' %}
             {% is_job_already_applied job request.user as is_applied %}
-            {% if is_applied %}
 
-            <span  class="btn btn-block btn-danger btn-md">Already Applied</span>
-
-            {% else %}
 
             <form action="{% url 'jobapp:apply-job' job.id %}" method="POST">
               {% csrf_token %}
               <input type="hidden" name="job" value="{{ job.id }}">
+              {% if is_applied %}
 
-              <input type="submit" class="btn btn-block btn-primary btn-md" value="Apply Now" />
+              <input type="submit" name="unapply" class="btn btn-block btn-danger btn-md" value="Delete application" />
+
+              {% else %}
+
+
+              <input type="submit" name="apply" class="btn btn-block btn-primary btn-md" value="Apply now " />
             </form>
             {% endif %}
             
@@ -178,7 +180,7 @@
               {% csrf_token %}
               <input type="hidden" name="job" value="{{ job.id }}">
 
-              <input type="submit" class="btn btn-block btn-primary btn-md" value="Apply Now" />
+              <input type="submit" name="apply" class="btn btn-block btn-primary btn-md" value="Apply as a {{mainCV.name}}" />
             </form>
           </div>
           {% endif %}

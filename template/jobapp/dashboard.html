@@ -187,7 +187,10 @@
                         <br>
 
                     </div>
-                    <div class="container">
+                    {% ifequal user.role 'employee'  %}
+
+                        <div class="container">
+
                     <!--                    binging of the cv row-->
                         <div class="row">
 
@@ -204,39 +207,40 @@
 <!--                    end of cv rows-->
 
 <!--                    biginng of the cv row-->
+
                         <div class="row mt-2">
+                            {% for cv in cvs %}
                           <div class="col-sm-4">
                             <div class="card">
                               <div class="card-body">
-                                <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <h5 class="card-title">{{cv.name}}</h5>
+                                <p class="card-text">
+<!--                                    hidden text-->
+                                </p>
+                                  <p class="card-text">
+                                    <a href="{% url 'jobapp:addNewExperience' cv.name%}" class="btn btn-primary">Add new Experience</a>
+                                  </p>
+                                  <p class="card-text">
+                                    <a href="{% url 'jobapp:addNewFormation' cv.name%}" class="btn btn-primary">Add new Formation</a>
+                                  </p>
+                                  <p class="card-text center">
+                                    <a href="{% url 'jobapp:addNewSkill' cv.name%}" class="btn btn-primary">Add new Competence <a>
+                                  </p>
+                                  <p class="card-text center">
+                                    <a href="{% url 'jobapp:makeDefault' cv.name%}" class="btn btn-primary">Make default <a>
+                                  </p>
+
                               </div>
                             </div>
                           </div>
-                          <div class="col-sm-4">
-                            <div class="card">
-                              <div class="card-body">
-                                <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-4">
-                            <div class="card">
-                              <div class="card-body">
-                                <h5 class="card-title">Special title treatment</h5>
-                                <p class="card-text">It's a broader card with text below as a natural lead-in to extra content. This content is a little longer.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                              </div>
-                            </div>
-                          </div>
+                            {% endfor%}
+
 
                     </div>
 <!--                    end of cv rows-->
-                </div>
 
+                </div>
+                    {% endifequal%}
 
                 </div>
 
@@ -270,15 +274,15 @@
                                 <td>{{ job.last_date | date:'M d, Y' }}</td>
                                 <td>
                                     {% if job.is_published == True %}
-                                
+
                                         <span class="badge badge-info">Published</span>
-                                
+
                                     {% else %}
 
                                         <span class="badge badge-danger px-2">Pending</span>
 
                                     {% endif %}
-                                
+
                                 </td>
 
                                 <td>
@@ -290,7 +294,7 @@
                                         <i class="fa fa-users"></i>
                                         <span class="badge badge-success text-white">
 
-                                       
+
                                             {% if is_applicant > 1 %}
 
 
@@ -303,7 +307,7 @@
                                             {% endif %}
 
                                         </span>
-                                        
+
                                     </a>
                                     {% endif %}
 
@@ -317,8 +321,8 @@
                                             <button onclick="call_sw_alert_func('{% url 'jobapp:complete' job.id %}','{{ job.id }}', 'Once Clicked, Your Post Will Marked Completed')" class="text-white btn btn-success btn-sm" >Make Close</button>
                                         </span>
                                         {% else %}
-                                        <a class="text-white btn btn-success btn-sm" 
-                                        role="button">Closed</a>                                    
+                                        <a class="text-white btn btn-success btn-sm"
+                                        role="button">Closed</a>
                                         {% endif %}
                                         {% endif %}
                                     <button onclick="call_sw_alert_func('{% url 'jobapp:delete' job.id %}','{{ job.id }}','Once Deleted, You Will Not be Able To Recover This Post!')" class="btn btn-danger btn-sm">Delete</button>
@@ -335,14 +339,14 @@
 
                     <ul class="mb-3 nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Bookmarked Job</a>
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home1" role="tab" aria-controls="home" aria-selected="true">Bookmarked Job</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Aplied Job</a>
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile1" role="tab" aria-controls="profile" aria-selected="false">Aplied Job</a>
                         </li>
                       </ul>
                       <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="tab-pane fade show active" id="home1" role="tabpanel" aria-labelledby="home-tab">
                             <h5 class="card-header text-center">Bookmarked Posts</h5>
                             {% if savedjobs %}
                             <table class="table text-center mt-5">
@@ -371,7 +375,7 @@
                             <p class="m-5">You have not any save job yet !! </p>
                             {% endif %}
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="tab-pane fade show" id="profile1" role="tabpanel" aria-labelledby="profile-tab">
                             <h5 class="card-header text-center">Aplied Posts</h5>
                             {% if appliedjobs %}
                             <table class="table text-center mt-5">
@@ -396,7 +400,7 @@
                             <p class="m-5">You have not any applied job yet !! </p>
                             {% endif %}
                         </div>
-                        
+
                       </div>
 
                     {% endif %}
@@ -404,6 +408,9 @@
                 </div>
             </div>
         </div>
+
+    </div>
+
 
     </div>
     </div>

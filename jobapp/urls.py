@@ -29,5 +29,10 @@ urlpatterns = [
     path('employee/newCv/addFormation/<int:id>/', views.addnewFormation, name='newFormation'),
     path('employee/newCv/addskills/<int:id>/', views.addnewSkill, name='newSkill'),
     path('employee/newCv/cvCompleted/<int:id>/', views.cvCompleted, name='cvCompleted'),
+    path('employee/newCv/addNewExperience/<str:id>/', views.addnewExperiancedashboard, name='addNewExperience'),
+    path('employee/newCv/addNewFormation/<str:id>/', views.addnewFormationdashboard, name='addNewFormation'),
+    path('employee/newCv/addNewCompetance/<str:id>/', views.addnewSkilldashboard, name='addNewSkill'),
+    path('employee/newCv/makedefault/<str:id>/', views.makeDefault, name='makeDefault'),
+
 
 ]

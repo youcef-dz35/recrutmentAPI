@@ -94,7 +94,7 @@ admin.site.register(User, UserAdmin)
 
 
 class userCv(admin.ModelAdmin):
-    list_display = ('name', 'user')
+    list_display = ('name', 'user','default')
 
 
 admin.site.register(cv, userCv)

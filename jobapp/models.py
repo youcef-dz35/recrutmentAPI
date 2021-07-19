@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 User = get_user_model()
 
+from account.models import *
 
 from ckeditor.fields import RichTextField
 from taggit.managers import TaggableManager
@@ -50,6 +51,7 @@ class Applicant(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    cv = models.ForeignKey(cv, on_delete=models.CASCADE,blank=True, null=True)
     timestamp = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 

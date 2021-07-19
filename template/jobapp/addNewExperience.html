@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- HOME -->
+<section class="section-hero overlay inner-page bg-image"
+  style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-white font-weight-bold">Step 2 Add Experience</h1>
+        <div class="custom-breadcrumbs">
+          <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+          <span class="text-white"><strong>Add new Experience</strong></span>
+        </div>
+        {% include 'messages.html' %}
+
+
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="alert alert-danger alert-dismissable">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>{{ field.label|capfirst }} {{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissable">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="site-section">
+<!--  form start-->
+
+   <form method="POST" action="" class="p-4 border rounded">
+          {% csrf_token %}
+          {% for field in form %}
+
+          {% if field.name == 'date_debut' %}
+          <div class="row form-group">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
+              <input type="date" class="form-control" name="{{ field.name }}"
+                id="id_{{ field.name }}" value="{{ field.value }}"
+                placeholder="{{ field.field.widget.attrs.placeholder }}" required>
+            </div>
+          </div>
+          {% elif field.name == 'date_fin' %}
+          <div class="row form-group">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
+              <input type="date" class="form-control" name="{{ field.name }}"
+                id="id_{{ field.name }}" value="{{ field.value }}"
+                placeholder="{{ field.field.widget.attrs.placeholder }}" required>
+            </div>
+          </div>
+
+         {% elif field.name == 'description_deposte' %}
+            <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
+
+
+
+                    <textarea class="form-control" type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.name }}"
+                    id="id_{{ field.name }}" placeholder="{{ field.field.widget.attrs.placeholder }}" rows="3" required></textarea>
+                </div>
+            </div>
+
+         {%else%}
+          <div class="row form-group">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
+              <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.name }}"
+                id="id_{{ field.name }}" placeholder="{{ field.field.widget.attrs.placeholder }}" required>
+            </div>
+          </div>
+
+          {%endif%}
+
+
+
+<!--          start modifications-->
+
+<!--          end modifications-->
+          {% endfor %}
+          <div class="row form-group">
+            <div class="col-md-12">
+              <input type="submit" value="submit new experience" class="btn px-4 btn-primary text-white">
+            </div>
+          </div>
+
+        </form>
+
+<!--  form end-->
+
+
+</section>
+
+{% endblock %}

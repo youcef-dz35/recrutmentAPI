@@ -64,6 +64,7 @@ class cv(models.Model):
     # experience = models.ForeignKey(Experience, related_name='experience', on_delete=models.CASCADE, blank=True, null=True)
     # competence = models.ForeignKey(Competence, related_name='comp' ,on_delete=models.CASCADE, blank=True, null=True)
     # formation = models.ForeignKey(Formation, related_name='formation', on_delete=models.CASCADE, blank=True, null=True)
+    default = models.BooleanField(default=False)
 
     def __str__(self, experience=None):
         return str(self.name)

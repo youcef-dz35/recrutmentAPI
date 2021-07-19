@@ -5,7 +5,7 @@ from .models import *
 admin.site.register(Category)
 
 class ApplicantAdmin(admin.ModelAdmin):
-    list_display = ('job','user','timestamp')
+    list_display = ('job','user','cv','timestamp')
     
 admin.site.register(Applicant,ApplicantAdmin)
 
