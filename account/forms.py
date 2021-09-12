@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.forms import UserCreationForm
 
-
+from django.shortcuts import get_object_or_404
 from account.models import User
 from account.models import Experience
 
@@ -328,12 +328,12 @@ class PasswordVerificationForm(forms.ModelForm):
             }
         )
 
-    def checkPass(self):
+    def checkPass(self, id):
+        user = get_object_or_404(User, id=id)
         password = self.cleaned_data.get('password')
-        test = check_password(password, password.value)
-        if not test:
-            raise forms.ValidationError("Wrong password please try again")
-        return password
+        test = check_password(password, user.password)
+
+        return test
 
     def save(self, commit=True):
         password = super(PasswordVerificationForm, self).save(commit=False)

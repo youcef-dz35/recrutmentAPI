@@ -66,7 +66,7 @@ def passwordVerification(request, id=id):
     form = PasswordVerificationForm(request.POST or None, request.FILES or None, instance=user)
     if form.is_valid():
 
-        passCheck = form.checkPass()
+        passCheck = form.checkPass(id)
         if passCheck:
             messages.success(request, 'Your Profile Was Successfully decrypted!')
             return redirect(reverse("account:edit-profile", kwargs={
