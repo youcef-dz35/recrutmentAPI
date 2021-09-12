@@ -33,7 +33,7 @@ class JobForm(forms.ModelForm):
         )
         self.fields['location'].widget.attrs.update(
             {
-                'placeholder': 'eg : Bangladesh',
+                'placeholder': 'eg : Algeirs',
             }
         )
         self.fields['salary'].widget.attrs.update(
@@ -202,6 +202,9 @@ class JobEditForm(forms.ModelForm):
         if commit:
             user.save()
         return job
+
+
+
 
 
 class EmployerProfileEditForm(forms.ModelForm):

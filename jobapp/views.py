@@ -17,7 +17,6 @@ from jobapp.models import *
 from jobapp.permission import *
 from .forms import *
 
-
 User = get_user_model()
 
 
@@ -218,23 +217,19 @@ def apply_job_view(request, id):
                         'id': id
                     }))
     if applicant:
-            if 'unapply' in request.POST:
-                if form.is_valid():
+        if 'unapply' in request.POST:
+            if form.is_valid():
+                job = Applicant.objects.get(user=user.id, job=id)
+                job.delete()
+                messages.success(
+                    request, 'You have successfully delete your application for this job!')
+                return redirect(reverse("jobapp:single-job", kwargs={
+                    'id': id
+                }))
 
-                    job = Applicant.objects.get(user=user.id, job=id)
-                    job.delete()
-                    messages.success(
-                        request, 'You have successfully delete your application for this job!')
-                    return redirect(reverse("jobapp:single-job", kwargs={
-                        'id': id
-                    }))
-
-
-
-
-            return redirect(reverse("jobapp:single-job", kwargs={
-                'id': id
-            }))
+        return redirect(reverse("jobapp:single-job", kwargs={
+            'id': id
+        }))
 
     else:
 
@@ -260,7 +255,7 @@ def dashboard_view(request):
         bday = today.year - user.date_of_birth.year - (
                 (today.month, today.day) < (user.date_of_birth.month, user.date_of_birth.day))
 
-    cvs = cv.objects.filter(user = request.user.id)
+    cvs = cv.objects.filter(user=request.user.id)
 
     print(user.__dict__)
     print(cvs.__dict__)
@@ -354,10 +349,21 @@ def delete_bookmark_view(request, id):
 @user_is_employer
 def applicant_details_view(request, id):
     applicant = get_object_or_404(User, id=id)
+    maincv = get_object_or_404(cv, user=applicant, default=True)
+    experiences = Experience.objects.filter(user=applicant, cv=maincv.id)
+    formations = Formation.objects.filter(user=applicant, cv=maincv.id)
+    skills = Competence.objects.filter(user=applicant, cv=maincv.id)
+    res = []
+    for skill in skills:
+        res = res + skill.competence.split(",")
+    skills =res
 
     context = {
-
-        'applicant': applicant
+        'applicant': applicant,
+        'maincv': maincv,
+        'experiences': experiences,
+        'formations': formations,
+        'skills': skills
     }
 
     return render(request, 'jobapp/applicant-details.html', context)
@@ -497,9 +503,6 @@ def addCv(request):
             }))
             # return render(request, 'jobapp/dashboard.html')
 
-
-
-
     context = {
         'form': form,
         'user': user,
@@ -536,20 +539,15 @@ def addnewExperiance(request, id=id):
 
     }
 
-    return render(request, 'jobapp/addexperiance.html',context)
+    return render(request, 'jobapp/addexperiance.html', context)
 
 
 def addnewFormation(request, id=id):
-
     cvs = cv.objects.get(pk=id)
 
     form = addnewFormationForm(request.POST or None)
 
-
-
-
     user = get_object_or_404(User, id=request.user.id)
-
 
     if request.method == 'POST':
 
@@ -572,20 +570,15 @@ def addnewFormation(request, id=id):
 
     }
 
-    return render(request, 'jobapp/addFormation.html',context)
+    return render(request, 'jobapp/addFormation.html', context)
 
 
 def addnewSkill(request, id=id):
-
     cvs = cv.objects.get(pk=id)
 
     form = addSkillForm(request.POST or None)
 
-
-
-
     user = get_object_or_404(User, id=request.user.id)
-
 
     if request.method == 'POST':
 
@@ -608,11 +601,10 @@ def addnewSkill(request, id=id):
 
     }
 
-    return render(request, 'jobapp/addskills.html',context)
+    return render(request, 'jobapp/addskills.html', context)
 
 
 def cvCompleted(request, id=id):
-
     user = get_object_or_404(User, id=request.user.id)
     context = {
 
@@ -648,19 +640,15 @@ def addnewExperiancedashboard(request, id=id):
 
     }
 
-    return render(request, 'jobapp/addNewExperience.html',context)
+    return render(request, 'jobapp/addNewExperience.html', context)
+
 
 def addnewFormationdashboard(request, id=id):
-
     cvs = cv.objects.get(name=id)
 
     form = addnewFormationForm(request.POST or None)
 
-
-
-
     user = get_object_or_404(User, id=request.user.id)
-
 
     if request.method == 'POST':
 
@@ -681,19 +669,15 @@ def addnewFormationdashboard(request, id=id):
 
     }
 
-    return render(request, 'jobapp/addNewFormation.html',context)
+    return render(request, 'jobapp/addNewFormation.html', context)
+
 
 def addnewSkilldashboard(request, id=id):
-
     cvs = cv.objects.get(name=id)
 
     form = addSkillForm(request.POST or None)
 
-
-
-
     user = get_object_or_404(User, id=request.user.id)
-
 
     if request.method == 'POST':
 
@@ -714,12 +698,11 @@ def addnewSkilldashboard(request, id=id):
 
     }
 
-    return render(request, 'jobapp/addNewSkill.html',context)
+    return render(request, 'jobapp/addNewSkill.html', context)
 
 
-def makeDefault(request,id=id):
-
-    cv.objects.all().update(default= False)
+def makeDefault(request, id=id):
+    cv.objects.filter(user=request.user.id).update(default=False)
     cvs = cv.objects.get(name=id)
     cvs.default = True
     cvs.save()

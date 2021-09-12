@@ -17,12 +17,15 @@ urlpatterns = [
     path('result/', views.search_result_view, name='search_result'),
     path('dashboard/', views.dashboard_view, name='dashboard'),
     path('dashboard/employer/job/<int:id>/applicants/', views.all_applicants_view, name='applicants'),
+
     path('dashboard/employer/job/edit/<int:id>', views.job_edit_view, name='edit-job'),
     path('dashboard/employer/applicant/<int:id>/', views.applicant_details_view, name='applicant-details'),
     path('dashboard/employer/close/<int:id>/', views.make_complete_job_view, name='complete'),
     path('dashboard/employer/delete/<int:id>/', views.delete_job_view, name='delete'),
     path('dashboard/employee/delete-bookmark/<int:id>/', views.delete_bookmark_view, name='delete-bookmark'),
-    path('employer/profile/edit/<int:id>/', views.employer_edit_profile, name='employer-edit-profile'),
+    path('employer/profile/edit/<int:id>/', views.employer_edit_profile, name='employer-edit-profile'), #must be verified later
+
+
     path('employee/addCv/<int:id>/', views.addNewCv, name='addCV'),
     path('employee/newCv/', views.addCv, name='newCV'),
     path('employee/newCv/addExperiance/<int:id>/', views.addnewExperiance, name='newExperiance'),

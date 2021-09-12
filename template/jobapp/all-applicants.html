@@ -26,7 +26,7 @@
                         <table class="table text-center">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Occupation</th>
                                     <th>Job Title</th>
                                     <th>Applied Date</th>
                                     <th>View </th>
@@ -35,10 +35,10 @@
                             </thead>
                             <tbody>
                                 {% for applicant in all_applicants %}
-                        {{ applicant.get_total_applicant }}
+                                {{ applicant.get_total_applicant }}
 
                                 <tr>
-                                    <td class="text-center"><a href="">{{ applicant.user.get_full_name }}</a></td     >
+                                    <td class="text-center"><a href="">{{ applicant.cv.name }}</a></td>
                                     <td>{{ applicant.job.title }}</td>
                                     <td>{{ applicant.timestamp }}</td>
                                     <td>

@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.forms import UserCreationForm
+
 
 from account.models import User
 from account.models import Experience
@@ -314,3 +316,18 @@ class EmployeeProfileEditForm(forms.ModelForm):
         model = User
         fields = ["first_name", "last_name", "gender", 'civil', 'telephone', 'date_of_birth', 'address', 'zip_code',
                   'city', 'operate', 'image']
+
+
+class PasswordVerificationForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(PasswordVerificationForm, self).__init__(*args, **kwargs)
+        self.fields['password'].widget.attrs.update(
+            {
+                'placeholder': 'please entre your password to decode your private profile',
+            }
+        )
+
+    class Meta:
+        model = User
+        fields = ["password" ]
