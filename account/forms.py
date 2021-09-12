@@ -328,6 +328,19 @@ class PasswordVerificationForm(forms.ModelForm):
             }
         )
 
+    def checkPass(self):
+        password = self.cleaned_data.get('password')
+        test = check_password(password, password.value)
+        if not test:
+            raise forms.ValidationError("Wrong password please try again")
+        return password
+
+    def save(self, commit=True):
+        password = super(PasswordVerificationForm, self).save(commit=False)
+        if commit:
+            password.save()
+        return password
+
     class Meta:
         model = User
         fields = ["password" ]

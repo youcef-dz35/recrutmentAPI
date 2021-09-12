@@ -66,16 +66,21 @@ def passwordVerification(request, id=id):
     form = PasswordVerificationForm(request.POST or None, request.FILES or None, instance=user)
     if form.is_valid():
 
-        messages.success(request, 'Your Profile Was Successfully Updated!')
-        return redirect(reverse("account:edit-profile", kwargs={
-            'id': form.id
-        }))
+        passCheck = form.checkPass()
+        if passCheck:
+            messages.success(request, 'Your Profile Was Successfully decrypted!')
+            return redirect(reverse("account:edit-profile", kwargs={
+                'id': id
+            }))
+        else:
+            messages.success(request, 'Wrong password please try again!')
+
     context = {
 
         'form': form
     }
 
-    return render(request, 'account/employee-edit-profile.html', context)
+    return render(request, 'account/passwordVerification.html', context)
 
 
 @login_required(login_url=reverse_lazy('accounts:login'))
