@@ -8,11 +8,8 @@ from django.contrib import auth
 from jobapp.models import *
 from account.models import *
 from ckeditor.widgets import CKEditorWidget
-
-
-
-
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.hashers import check_password
 class JobForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -202,9 +199,6 @@ class JobEditForm(forms.ModelForm):
         if commit:
             user.save()
         return job
-
-
-
 
 
 class EmployerProfileEditForm(forms.ModelForm):
@@ -633,7 +627,6 @@ class addSkillForm(forms.ModelForm):
         fields = [
             "competence",
 
-
         ]
 
     def save(self, commit=True):
@@ -643,3 +636,50 @@ class addSkillForm(forms.ModelForm):
         return competence
 
 
+class experienceSearchForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(experienceSearchForm, self).__init__(*args, **kwargs)
+        self.fields['entreprise'].widget.attrs.update(
+            {
+                'placeholder': 'please entre the company/entreprise name',
+            }
+        )
+
+    def save(self, commit=True):
+        name = super(experienceSearchForm, self).save(commit=False)
+        if commit:
+            name.save()
+        return name
+
+    class Meta:
+        model = Experience
+        fields = ["entreprise"]
+
+
+class PasswordVerificationForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(PasswordVerificationForm, self).__init__(*args, **kwargs)
+        self.fields['password'].widget.attrs.update(
+            {
+                'placeholder': 'please entre your password to decode your private profile',
+            }
+        )
+
+    def checkPass(self, id):
+        user = get_object_or_404(User, id=id)
+        password = self.cleaned_data.get('password')
+        test = check_password(password, user.password)
+
+        return test
+
+    def save(self, commit=True):
+        password = super(PasswordVerificationForm, self).save(commit=False)
+        if commit:
+            password.save()
+        return password
+
+    class Meta:
+        model = User
+        fields = ["password" ]

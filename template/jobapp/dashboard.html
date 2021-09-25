@@ -218,7 +218,8 @@
 <!--                                    hidden text-->
                                 </p>
                                   <p class="card-text">
-                                    <a href="{% url 'jobapp:addNewExperience' cv.name%}" class="btn btn-primary">Add new Experience</a>
+                                    <a href="{% url 'jobapp:addNewExperience' cv.name%}" class="btn btn-primary">Add Experience</a>
+                                      <a href="{% url 'jobapp:matchRecruter' cv.id%}" class="btn btn-warning">Validate existing </a>
                                   </p>
                                   <p class="card-text">
                                     <a href="{% url 'jobapp:addNewFormation' cv.name%}" class="btn btn-primary">Add new Formation</a>

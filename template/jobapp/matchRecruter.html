@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- HOME -->
+<section class="section-hero overlay inner-page bg-image"
+  style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-white font-weight-bold">Recruter Matching</h1>
+        <div class="custom-breadcrumbs">
+          <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+          <span class="text-white"><strong>Find Recruter to validate Experiance</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="site-section">
+<!--  form start-->
+
+   <form method="POST" action="" class="p-4 border rounded">
+          {% csrf_token %}
+          {% for field in form %}
+
+          <div class="row form-group">
+            <div class="col-md-12 mb-3 mb-md-0">
+              <label class="text-black" for="id_{{ field.name }}">{{ field.label }}</label>
+              <input required type="{{ field.field.widget.input_type }}" class="form-control" name="{{ field.name }}"
+                id="id_{{ field.name }}" placeholder="{{ field.field.widget.attrs.placeholder }}">
+            </div>
+          </div>
+
+
+
+<!--          start modifications-->
+
+<!--          end modifications-->
+          {% endfor %}
+          <div class="row form-group">
+            <div class="col-md-12">
+              <input type="submit" value="Search for company" class="btn px-4 btn-primary text-white">
+            </div>
+          </div>
+
+        </form>
+    <hr>
+    {% if recruter %}
+    <div class="container">
+        <h1>matches found</h1><br>
+        <div class="card" style="width: 18rem;">
+          <img src="{{recruter.image.url}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{recruter.first_name}}</h5>
+            <p class="card-text">{{recruter.last_name}}</p>
+              <hr>
+              <small>Next you should decrypt your private info so the company representative conforms your identity</small>
+              <hr>
+            <a href="{% url 'jobapp:passwordVerification'%}" class="btn btn-primary">Proceed to decryption</a>
+          </div>
+        </div>
+
+        {% endif %}
+
+
+
+
+    </div>
+
+
+<!--  form end-->
+
+
+</section>
+
+{% endblock %}

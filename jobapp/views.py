@@ -13,9 +13,12 @@ from django.core.serializers import serialize
 
 from account.models import *
 
+
 from jobapp.models import *
 from jobapp.permission import *
 from .forms import *
+from .permission import user_is_employee
+
 
 User = get_user_model()
 
@@ -542,6 +545,38 @@ def addnewExperiance(request, id=id):
     return render(request, 'jobapp/addexperiance.html', context)
 
 
+def matchRecruter(request,id=id):
+    cvs = cv.objects.get(pk=id)
+
+
+    form = experienceSearchForm(request.POST or None)
+
+    user = get_object_or_404(User, id=request.user.id)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            search_recruter = form.cleaned_data['entreprise']
+            recruter = User.objects.filter(Q(first_name__icontains=search_recruter)).first()
+            if recruter:
+                messages.success(request, 'A match has been found please proceed to choosing the experience ')
+                context = {
+                    'form': form,
+                    'recruter': recruter,
+                    'user': user,
+                }
+                return render(request, 'jobapp/matchRecruter.html', context)
+
+
+    context = {
+        'form': form,
+
+        'user': user,
+
+    }
+
+    return render(request, 'jobapp/matchRecruter.html', context)
+
+
 def addnewFormation(request, id=id):
     cvs = cv.objects.get(pk=id)
 
@@ -708,3 +743,29 @@ def makeDefault(request, id=id):
     cvs.save()
 
     return redirect(reverse("jobapp:dashboard"))
+
+
+@user_is_employee
+def passwordVerification(request):
+    """
+    Handle Employee Profile Update Functionality
+
+    """
+
+    user = get_object_or_404(User, id=request.user.id)
+    form = PasswordVerificationForm(request.POST or None, request.FILES or None, instance=user)
+    if form.is_valid():
+
+        passCheck = form.checkPass(request.user.id)
+        if passCheck:
+            messages.success(request, 'Your Profile Was Successfully decrypted and sent to recruiter !')
+            return redirect(reverse("jobapp:dashboard"))
+        else:
+            messages.success(request, 'Wrong password please try again!')
+
+    context = {
+
+        'form': form
+    }
+
+    return render(request, 'account/passwordVerification.html', context)
