@@ -102,7 +102,10 @@ class JobApplyForm(forms.ModelForm):
     class Meta:
         model = Applicant
         fields = ['job']
-
+class ValidationForm(forms.ModelForm):
+    class Meta:
+        model = Validate
+        fields = ['candidat']
 
 class JobBookmarkForm(forms.ModelForm):
     class Meta:

@@ -20,3 +20,10 @@ class BookmarkJobAdmin(admin.ModelAdmin):
 admin.site.register(BookmarkJob,BookmarkJobAdmin)
 
 
+class ValidationAdmin(admin.ModelAdmin):
+    list_display = ('candidat', 'cv', 'recruter', 'is_validated', 'timestamp')
+
+
+admin.site.register(Validate, ValidationAdmin)
+
+

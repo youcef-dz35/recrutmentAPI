@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
     'jobapp.apps.JobappConfig',
     'account.apps.AccountConfig',
 
@@ -86,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'recapi',
         'USER': 'postgres',
-        'PASSWORD': 'ramc7659170503',
+        'PASSWORD': 'jnoo2004',
         'HOST': 'localhost',
         'PORT': '',
     }

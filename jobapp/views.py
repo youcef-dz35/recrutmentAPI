@@ -1,6 +1,7 @@
 from datetime import date
 from pprint import pprint
 
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -14,7 +15,7 @@ from django.core.serializers import serialize
 from account.models import *
 
 
-from jobapp.models import *
+from jobapp.models import Validate
 from jobapp.permission import *
 from .forms import *
 from .permission import user_is_employee
@@ -335,7 +336,18 @@ def all_applicants_view(request, id):
 
     return render(request, 'jobapp/all-applicants.html', context)
 
+@login_required(login_url=reverse_lazy('account:login'))
+@user_is_employer
+def all_validate_view(request):
 
+    validationRequest = Validate.objects.filter(recruter =request.user.id)
+
+    context = {
+
+        'validationRequest': validationRequest
+    }
+
+    return render(request, 'jobapp/validation.html', context)
 @login_required(login_url=reverse_lazy('account:login'))
 @user_is_employee
 def delete_bookmark_view(request, id):
@@ -562,8 +574,11 @@ def matchRecruter(request,id=id):
                 context = {
                     'form': form,
                     'recruter': recruter,
+                    'cvs' : cvs,
                     'user': user,
                 }
+                request.session['recruter'] = recruter.id
+                request.session['cvs'] = id
                 return render(request, 'jobapp/matchRecruter.html', context)
 
 
@@ -752,12 +767,21 @@ def passwordVerification(request):
 
     """
 
-    user = get_object_or_404(User, id=request.user.id)
-    form = PasswordVerificationForm(request.POST or None, request.FILES or None, instance=user)
+    candidat = get_object_or_404(User, id=request.user.id)
+    recruter = get_object_or_404(User, id=request.session['recruter'])
+
+    cvs = cv.objects.get(id=request.session['cvs'])
+    form = PasswordVerificationForm(request.POST or None, request.FILES or None, instance=candidat)
     if form.is_valid():
 
         passCheck = form.checkPass(request.user.id)
         if passCheck:
+
+
+            validaterequest=Validate(candidat=candidat,recruter=recruter,cv=cvs)
+            validaterequest.save()
+            # validaterequest( cv.id , rec.id , cand.id)
+            # logique
             messages.success(request, 'Your Profile Was Successfully decrypted and sent to recruiter !')
             return redirect(reverse("jobapp:dashboard"))
         else:
@@ -769,3 +793,72 @@ def passwordVerification(request):
     }
 
     return render(request, 'account/passwordVerification.html', context)
+
+
+def jobSeekerpasswordVerification(request,id=id):
+
+
+        request.session['cvs'] = id
+        user = get_object_or_404(User, id=request.user.id)
+        form = PasswordVerificationForm(request.POST or None, request.FILES or None, instance=user)
+        if form.is_valid():
+
+            passCheck = form.checkPass(request.user.id)
+            if passCheck:
+
+                messages.success(request, 'job seeker private info were Successfully decrypted!')
+                return redirect(reverse("jobapp:requestValidationDetail", kwargs={
+                'id': id,
+            }))
+            else:
+                messages.success(request, 'Wrong password please try again!')
+
+        context = {
+
+            'form': form
+        }
+
+        return render(request, 'account/passwordVerification.html', context)
+
+
+def requestValidationDetails(request, id=id):
+
+
+    maincv = get_object_or_404(cv, id=request.session['cvs'] , default=True)
+    applicant  = maincv.user
+    experiences = Experience.objects.filter(user=applicant, cv=maincv.id)
+    formations = Formation.objects.filter(user=applicant, cv=maincv.id)
+    skills = Competence.objects.filter(user=applicant, cv=maincv.id)
+    res = []
+    for skill in skills:
+        res = res + skill.competence.split(",")
+    skills = res
+
+    context = {
+        'applicant': applicant,
+        'maincv': maincv,
+        'experiences': experiences,
+        'formations': formations,
+        'skills': skills
+    }
+
+    return render(request, 'jobapp/Request-validation-detail.html', context)
+
+
+def requestValidationsuccess(request, id=id):
+
+    maincv = get_object_or_404(cv, id=id, default=True)
+    user = get_object_or_404(User, id=request.user.id)
+    validation = get_object_or_404(Validate, candidat=maincv.user, recruter=user, cv=maincv)
+    validation.is_validated = True
+    validation.save()
+    validationRequest = Validate.objects.filter(recruter=request.user.id)
+
+    context = {
+
+        'validationRequest': validationRequest
+    }
+
+    return render(request, 'jobapp/validation.html', context)
+
+

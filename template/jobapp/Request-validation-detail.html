@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% load static %} 
+{% block content %}
+
+
+
+
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h1 class="text-white font-weight-bold">{{ maincv.name }}</h1>
+            <div class="custom-breadcrumbs">
+              <a href="{% url 'jobapp:home' %}">Home</a> <span class="mx-2 slash">/</span>
+              <span class="text-white"><strong>Applicant</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-section block__18514" id="next-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="border p-4 rounded">
+              <ul class="list-unstyled block__47528 mb-0">
+                <li><span class="active">Graphic Design</span></li>
+                <li><a href="#">Topic 1</a></li>
+                <li><a href="#">Topic 2</a></li>
+          
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-9">
+
+            <h2 class="mb-4">{{ maincv.name }}</h2>
+              <h1 >{{applicant.first_name}} </h1><h1 style="text-transform:uppercase;">   {{applicant.last_name}}</h1>
+
+              <div class="panel-body">
+                <div class="container">
+
+                        <div class="card-deck">
+                          <div class="card col-sm-3 mr-0 ml-0">
+                            <div class="card-body " style=" padding-left: 0px; padding-right: 0px;">
+                              <h5 class="card-title"> Telephone</h5>
+                              <small class="card-text ">{{ applicant.telephone }}</small>
+                            </div>
+
+                          </div>
+                          <div class="card col-sm-3 mr-0 ml-0">
+                            <div class="card-body " style=" padding-left: 0px; padding-right: 0px;">
+                              <h5 class="card-title">  Address</h5>
+                              <small class="card-text ">{{ applicant.address }}</small>
+                            </div>
+
+                          </div>
+                          <div class="card col-sm-3">
+                            <div class="card-body" style=" padding-left: 0px; padding-right: 0px;">
+                              <h5 class="card-title"> Birthdate</h5>
+                              <small class="card-text">{{ applicant.date_of_birth }}</small>
+                            </div>
+
+                          </div>
+                          <div class="card col-sm-3">
+                            <div class="card-body" style=" padding-left: 0px; padding-right: 0px;">
+                                <img src="{{applicant.image.url}}" style="height : 150px" class="card-img-top" alt="...">
+                            </div>
+
+                          </div>
+                        </div>
+
+                </div>
+
+              <div class="container">
+
+                        <div class="card-deck">
+                          <div class="card col-sm-3 mr-0 ml-0">
+                            <div class="card-body " style=" padding-left: 0px; padding-right: 0px;">
+                              <h5 class="card-title"> <i class="fa fa-envelope"></i> Email</h5>
+                              <small class="card-text ">{{ applicant.email }}</small>
+                            </div>
+
+                          </div>
+                          <div class="card col-sm-3">
+                            <div class="card-body" style=" padding-left: 0px; padding-right: 0px;">
+                              <h5 class="card-title"> <i class="fa fa-venus-mars"> </i> Gender</h5>
+                              <small class="card-text mr-0 ml-0">
+                                {% if applicant.gender == 'M' %}
+                                    Male
+                                {% else %}
+                                    Female
+                                {% endif %}</small>
+                            </div>
+
+                          </div>
+                          <div class="card col-sm-3">
+                            <div class="card-body" style=" padding-left: 0px; padding-right: 0px;">
+                              <h5 class="card-title"><i class='fa fa-home  '></i> City</h5>
+                              <small class="card-text">{{ applicant.city }}</small>
+                            </div>
+
+                          </div>
+                          <div class="card col-sm-3">
+                            <div class="card-body" style=" padding-left: 0px; padding-right: 0px;">
+                              <h5 class="card-title"><i class="fas fa-ring fa-spin"></i> Civil Status</h5>
+                              <small class="card-text">
+                                {% if applicant.civil == 'M' %}
+                                    Married
+                                {% else %}
+                                    Single
+                                {% endif %}</small>
+                            </div>
+
+                          </div>
+                        </div>
+
+                </div>
+            </div>
+
+          </div>
+        </div>
+
+          <br>
+          <blockquote class="blockquote text-center">
+              <h1 class="mb-0">These are the {{maincv.name}} Experiences and Qualifications</h1>
+<!--              <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>-->
+          </blockquote>
+          <br>
+<!--          Start Experiences-->
+          <blockquote class="blockquote text-left">
+              <h4 class="mb-0">Applicant Experiences</h4>
+<!--              <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>-->
+          </blockquote>
+        <div class="row">
+            <div class="timeline">
+             {% for experience in experiences %}
+              <div class="entry">
+                <div class="title">
+                  <h3>{{experience.date_debut|date:"M, Y"}} - {{experience.date_fin|date:"M, Y"}}</h3>
+                  <p>{{experience.fonction}}, {{experience.entreprise}} / {{experience.type_entreprise}}</p>
+                </div>
+                <div class="body">
+                  <h4>{{experience.poste}}</h4>
+
+                      <p class="mb-3 ml-3"> {{experience.description_deposte}}</p>
+
+
+                </div>
+              </div>
+              {% endfor %}
+
+
+            </div>
+        </div>
+<!--          end experiences-->
+<!--          Start Internships-->
+          <blockquote class="blockquote text-left">
+              <h4 class="mb-0 mt-4">Applicant Internships/Trainings</h4>
+<!--              <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>-->
+          </blockquote>
+        <div class="row">
+            <div class="timeline">
+             {% for formation in formations %}
+              <div class="entry">
+                <div class="title">
+                  <h3>{{formation.date_debut|date:"M, Y"}} - {{formation.date_fin|date:"M, Y"}}</h3>
+                  <p>{{formation.ecole}}, {{formation.domain}} / {{formation.type}}</p>
+                </div>
+                <div class="body">
+                  <h4>{{formation.etude}}</h4>
+
+                      <p class="mb-3 ml-3"> {{formation.description}}</p>
+
+
+                </div>
+              </div>
+              {% endfor %}
+
+
+            </div>
+        </div>
+<!--          end Internships-->
+<!--          start skills-->
+          <blockquote class="blockquote text-left">
+              <h4 class="mb-0 mt-4">Applicant Skills and Competences </h4>
+<!--              <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>-->
+          </blockquote>
+          <div class="row">
+              <div class="time">
+                  {% for skill in skills %}
+
+                  <button type="button" class="btn btn-primary">{{skill}} </button>
+
+                  {% endfor %}
+
+
+              </div>
+          </div>
+<!--          end skills-->
+          <p><a href="{% url 'jobapp:requestValidationsuccess' maincv.id%}" class="btn btn-primary btn-md mt-4">Validate Experiences</a></p>
+
+      </div>
+    </section>
+    
+
+
+{% endblock %}

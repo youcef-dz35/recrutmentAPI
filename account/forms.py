@@ -222,6 +222,92 @@ class EmployerRegistrationForm(UserCreationForm):
             user.save()
         return user
 
+#new
+class EmployeeRegistrationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        UserCreationForm.__init__(self, *args, **kwargs)
+        self.fields['gender'].required = True
+        self.fields['first_name'].label = "First Name :"
+        self.fields['last_name'].label = "Last Name :"
+        self.fields['password1'].label = "Password :"
+        self.fields['password2'].label = "Confirm Password :"
+        self.fields['email'].label = "Email :"
+        self.fields['gender'].label = "Gender :"
+        self.fields['civil'].label = "Civil Status :"
+        self.fields['telephone'].label = "Telephone :"
+        self.fields['date_of_birth'].label = "Date of Birth :"
+        self.fields['address'].label = "Address :"
+        self.fields['zip_code'].label = "Zip code :"
+        self.fields['city'].label = "City :"
+        self.fields['first_name'].widget.attrs.update(
+            {
+                'placeholder': 'Enter First Name',
+            }
+        )
+        self.fields['last_name'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Last Name',
+            }
+        )
+        self.fields['email'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Email',
+            }
+        )
+        self.fields['civil'].widget.attrs.update(
+            {
+                'placeholder': 'Civil Status',
+            }
+        )
+        self.fields['telephone'].widget.attrs.update(
+            {
+                'placeholder': 'Phone Number',
+            }
+        )
+        self.fields['date_of_birth'].widget.attrs.update(
+            {
+                'placeholder': 'Enter your Date Of Birth',
+            }
+        )
+        self.fields['address'].widget.attrs.update(
+            {
+                'placeholder': 'Enter your address',
+            }
+        )
+        self.fields['zip_code'].widget.attrs.update(
+            {
+                'placeholder': 'Zip Code',
+            }
+        )
+        self.fields['city'].widget.attrs.update(
+            {
+                'placeholder': 'city of habitat',
+            }
+        )
+        self.fields['password1'].widget.attrs.update(
+            {
+                'placeholder': 'Enter Password',
+            }
+        )
+        self.fields['password2'].widget.attrs.update(
+            {
+                'placeholder': 'Confirm Password',
+            }
+        )
+    class Meta:
+        model=User
+        fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'gender','civil','telephone','date_of_birth','address','zip_code','city']
+    def clean_gender(self):
+        gender = self.cleaned_data.get('gender')
+        if not gender:
+            raise forms.ValidationError("Gender is required")
+        return gender
+    def save(self, commit=True):
+        user = UserCreationForm.save(self,commit=False)
+        user.role = "employee"
+        if commit:
+            user.save()
+        return user
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField(

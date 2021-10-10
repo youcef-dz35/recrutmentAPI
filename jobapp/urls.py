@@ -16,6 +16,7 @@ urlpatterns = [
     path('contact/', views.single_job_view, name='contact'),
     path('result/', views.search_result_view, name='search_result'),
     path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('validation/', views.all_validate_view, name='validation-list'),
     path('dashboard/employer/job/<int:id>/applicants/', views.all_applicants_view, name='applicants'),
 
     path('dashboard/employer/job/edit/<int:id>', views.job_edit_view, name='edit-job'),
@@ -31,6 +32,11 @@ urlpatterns = [
     path('employee/newCv/addExperiance/<int:id>/', views.addnewExperiance, name='newExperiance'),
     path('employee/matchWithRecruter/<int:id>/', views.matchRecruter, name='matchRecruter'),
     path('employee/recruterValidation/', views.passwordVerification, name='passwordVerification'),
+
+    path('employer/jobseekerValidation/<int:id>/', views.jobSeekerpasswordVerification, name='jobSeekerpasswordVerification'),
+    path('employer/Request-validation-detail/<int:id>/', views.requestValidationDetails, name='requestValidationDetail'),
+    path('employer/Request-validation-validate/<int:id>/', views.requestValidationsuccess, name='requestValidationsuccess'),
+
 
     path('employee/newCv/addFormation/<int:id>/', views.addnewFormation, name='newFormation'),
     path('employee/newCv/addskills/<int:id>/', views.addnewSkill, name='newSkill'),

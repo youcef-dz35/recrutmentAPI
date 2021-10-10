@@ -65,6 +65,7 @@
                         <a class="profile-edit-btn" name="btnAddMore" href="{% url 'account:passwordVerification' request.user.id %}">Edit Profile</a>
                         {% else %}
                         <a class="profile-edit-btn" name="btnAddMore" href="{% url 'jobapp:employer-edit-profile' request.user.id %}">Edit Profile</a>
+                        <a class="profile-edit-btn" name="btnAddMore" href="{% url 'jobapp:validation-list'  %}">Validation requests</a>
                         {% endifequal %}
                     </div>
                 </div>
